@@ -1,16 +1,26 @@
 const { AppError } = require("../../../shared/errors/app-error");
+const { z } = require("zod");
+
+const userPayloadSchema = z.object({
+  name: z.string().trim().min(1, "Name is required"),
+  email: z.email("Email is invalid"),
+});
 
 const validateUserPayload = (req, _res, next) => {
-  const { name, email } = req.body || {};
+  const result = userPayloadSchema.safeParse(req.body);
 
-  if (typeof name !== "string" || !name.trim()) {
-    return next(new AppError("Name is required", 400));
+  if (!result.success) {
+    return next(
+      new AppError("Validation failed", 400, {
+        fields: result.error.issues.map((issue) => ({
+          message: issue.message,
+          path: issue.path.join("."),
+        })),
+      }),
+    );
   }
 
-  if (typeof email !== "string" || !email.trim()) {
-    return next(new AppError("Email is required", 400));
-  }
-
+  req.body = result.data;
   next();
 };
 
