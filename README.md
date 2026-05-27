@@ -20,9 +20,13 @@ The server will run on `http://localhost:3000` by default.
 - Express 5 starter setup
 - Centralized logging with `pino`
 - HTTP request logging with `pino-http`
+- Security headers with `helmet`
 - Global error handling
-- Basic request validation for the sample `users` module
+- Environment validation with `zod`
+- Schema-based request validation for the sample `users` module
 - Graceful shutdown handling for `SIGINT` and `SIGTERM`
+- ESLint and Prettier setup
+- Jest and Supertest integration tests
 
 ## Project Structure
 
@@ -51,8 +55,11 @@ The sample `users` module is wired end-to-end through entity, use case, reposito
 ## Available Scripts
 
 - `npm run dev` starts the app with `nodemon`
+- `npm run lint` checks the codebase with ESLint
+- `npm run format` formats the project with Prettier
 - `npm start` starts the app with Node.js
 - `npm run check` validates the server entry file syntax
+- `npm test` runs the test suite with Jest
 
 ## Environment Variables
 
@@ -63,6 +70,7 @@ PORT=3000
 APP_NAME=clean-architecture-express
 NODE_ENV=development
 LOG_LEVEL=info
+CORS_ORIGIN=*
 ```
 
 ## Notes
@@ -72,7 +80,8 @@ LOG_LEVEL=info
 - You can replace the in-memory repository with a database implementation later without changing the core use cases.
 - Routes are intentionally exposed without version prefixes such as `/v1` to keep the URL surface simpler as the app evolves.
 - In development, logs are formatted with `pino-pretty`.
-- Validation is intentionally minimal and can be replaced with a dedicated schema library later.
+- Validation is handled with `zod` and returns structured field-level errors.
+- CORS can be customized through `CORS_ORIGIN`, including comma-separated origins.
 
 ## Logging
 
@@ -83,6 +92,15 @@ This starter includes:
 - warning logs for expected application errors
 - error logs for unexpected failures
 - shutdown logs for process termination signals
+
+## Quality Tooling
+
+This starter includes:
+
+- ESLint with a flat config for Node.js and Jest
+- Prettier for consistent formatting
+- Jest for automated testing
+- Supertest for HTTP endpoint testing
 
 ## License
 
