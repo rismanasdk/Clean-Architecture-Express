@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
+const { env } = require("./config/env");
 const { buildContainer } = require("./container");
 const { createHealthRoutes } = require("./interfaces/http/routes/health-routes");
 const { createUserRoutes } = require("./interfaces/http/routes/user-routes");
@@ -11,7 +13,16 @@ const createApp = () => {
   const app = express();
   const { controllers } = buildContainer();
 
-  app.use(cors());
+  app.disable("x-powered-by");
+  app.use(helmet());
+  app.use(
+    cors({
+      origin:
+        env.corsOrigin === "*"
+          ? true
+          : env.corsOrigin.split(",").map((origin) => origin.trim()),
+    }),
+  );
   app.use(express.json());
   app.use(httpLogger);
 
