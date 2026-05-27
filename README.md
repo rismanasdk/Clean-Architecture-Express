@@ -86,4 +86,4 @@ This starter includes:
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE] for license details.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for license details.
