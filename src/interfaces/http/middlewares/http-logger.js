@@ -16,17 +16,17 @@ const httpLogger = pinoHttp({
     return "info";
   },
   customSuccessMessage(req, res) {
-    return `${req.method} ${req.url} completed with ${res.statusCode}`;
+    return `${req.method} ${req.originalUrl} completed with ${res.statusCode}`;
   },
   customErrorMessage(req, res) {
-    return `${req.method} ${req.url} failed with ${res.statusCode}`;
+    return `${req.method} ${req.originalUrl} failed with ${res.statusCode}`;
   },
   serializers: {
     req(req) {
       return {
         id: req.id,
         method: req.method,
-        url: req.url,
+        url: req.originalUrl,
       };
     },
     res(res) {
